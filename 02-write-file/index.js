@@ -13,9 +13,9 @@ emitte.on('close', ()=>{
   rl.on('close')
 })
 
-input.write('/////=>>>       Hi!!! You can write something in terminal!      <<<=\\\\\\\\\\\n')
-input.write('/////=>>>           For exit from app push "Ctrl + C"           <<<=\\\\\\\\\\\n')
-input.write('/////=>>> For exit write in console "exit" (small letters only) <<<=\\\\\\\\\\\n')
+output.write('/////=>>>       Hi!!! You can write something in terminal!      <<<=\\\\\\\\\\\n')
+output.write('/////=>>>           For exit from app push "Ctrl + C"           <<<=\\\\\\\\\\\n')
+output.write('/////=>>> For exit write in console "exit" (small letters only) <<<=\\\\\\\\\\\n')
 const rl = readline.createInterface({input, output})
 rl.on('line', (input) => {
   // console.log(`Received: ${input}`);
