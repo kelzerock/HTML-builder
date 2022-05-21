@@ -1,9 +1,8 @@
 const fs = require('node:fs');
-const path = require('node:path');
 const process = require('process');
 
-const pathToTextFile = __dirname + "/text.txt";
+const pathToTextFile =  __dirname + '/text.txt';
 const readStream = fs.createReadStream(pathToTextFile);
 readStream.on('data', (chunk)=>{
-  process.stdout.write(chunk)
-})
+  process.stdout.write(chunk);
+});
