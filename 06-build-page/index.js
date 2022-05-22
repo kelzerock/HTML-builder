@@ -1,16 +1,25 @@
 const path = require("path");
 const fs = require("fs");
-const { resolve } = require("path/posix");
-const { rejects } = require("assert");
 
-const pathToTemplate = path.join(__dirname, "/template.html");
-const pathToDestination = path.join(__dirname, "/project-dist");
+const pathToTemplate = path.join(__dirname, "template.html");
+const pathToDestination = path.join(__dirname, "project-dist");
+const pathToAssets = path.join(__dirname,'assets');
+const pathToComponents = path.join(__dirname, 'components')
+
+async function createDir(nameDir){
+  await fs.promises.rm(nameDir, {recursive: true})
+  await fs.promises.mkdir(nameDir)
+}
+
+async function createProject(){
+  await createDir(pathToDestination)
+}
+
 
 // const writeStream = fs.createWriteStream(
 //   path.join(pathToDestination, "index.html")
 // );
 
-fs.promises.mkdir(pathToDestination, { recursive: true });
 // fs.readdir(path.join(__dirname, 'components'), (err, files) => {
 //   files.forEach(async file => {
 //     const fileInfo = path.parse(file)
@@ -19,32 +28,82 @@ fs.promises.mkdir(pathToDestination, { recursive: true });
 //   })
 // })
 let templateVar = "";
+let xxx = 5;
 
-const promise = new Promise((resolve, rejects)=>{
-  const readStream = fs.createReadStream(pathTo);
-  const temp = '';
-  readStream.on("data", (chunk) => {
-    temp = chunk.toString();
-  const arrayTag = temp.match(/\{{(.+?)\}}/g);
-    arrayTag.forEach( elem =>{
-   
-  fs.createReadStream(
-      path.join(
-        __dirname,
-        "components",
-        `${elem.slice(2, elem.length - 2)}.html`
-      )
-    ).on("data", (chunkElem) => {
-      temp = temp.replace(`${elem}`, chunkElem.toString());
-    });
-    // console.log(templ);
+async function readHtml(path) {
+  const readInfo = await fs.promises.readFile(path, "utf-8", (err, data) => {
+    if (err) console.log(err);
+    const str = data.toString();
+  });
+  return readInfo;
+}
+
+let a = readHtml(pathToTemplate);
+a.then((data) => {
+  // console.log(data)
+  const arrayTag = data.match(/\{{(.+?)\}}/g);
+});
+
+async function readComponents(components) {
+    const arrayComponent = await fs.readdir(path.join(__dirname, "components"),'utf-8', (err, files) => {
+    if (err) console.log(err);
+    files.forEach(async function(elem){
+      const elemInfo = path.parse(elem)
+      if(elemInfo.name === components){
+        const valueElem = await fs.readFile(path.join(__dirname, 'components', elem), 'utf-8', (err, data)=>{
+        // return valueElem; 
+          // console.log(data)
+        })
+        // return valueElem
+      }
     })
+  });
+  // return arrayComponent;
+}
+ const yyy = readComponents('footer')
+ yyy.then((data)=>{
+   console.log(data)
+ })
+ console.log(yyy)
+ const eee = readComponents('header')
+ const rrr = readComponents('articles')
+ 
 
-    templateVar = temp;
-})
-})
+ async function go(){
 
+ }
+/////////////////////////////////////==========================
+// const readStream = fs.createReadStream(pathToTemplate);
+// let temp = "";
 
+//   const promise = new Promise((resolve, rejects) => {
+// readStream.on("data", (chunk) => {
+//   temp = chunk.toString();
+
+//     const arrayTag = temp.match(/\{{(.+?)\}}/g);
+
+//     for (let elem of arrayTag){
+//       fs.createReadStream(
+//         path.join(
+//           __dirname,
+//           "components",
+//           `${elem.slice(2, elem.length - 2)}.html`
+//         )
+//       ).on("data", (chunkElem) => {
+//         resolve(temp = temp.replace(`${elem}`, chunkElem.toString()))
+//         // console.log(temp);
+//       });
+//     }
+//     // arrayTag.forEach((elem) => {
+
+//     // });
+//   });
+
+//   });
+//   promise.then(()=>{
+//     templateVar = temp
+//     console.log(templateVar)
+// })
 
 // async function createTemplate(templ, pathTo) {
 //   const readStream = fs.createReadStream(pathTo);
@@ -52,7 +111,7 @@ const promise = new Promise((resolve, rejects)=>{
 //   templ = chunk.toString();
 //   const arrayTag = templ.match(/\{{(.+?)\}}/g);
 //     arrayTag.forEach( elem =>{
-   
+
 //   fs.createReadStream(
 //       path.join(
 //         __dirname,
@@ -66,7 +125,7 @@ const promise = new Promise((resolve, rejects)=>{
 //     })
 
 //     return templ
- 
+
 // });
 // }
 
@@ -74,8 +133,6 @@ const promise = new Promise((resolve, rejects)=>{
 // .then(
 //   console.log(templateVar)
 // )
-
-
 
 // const readStream = fs.createReadStream(pathToTemplate);
 // readStream.on("data", (chunk) => {
