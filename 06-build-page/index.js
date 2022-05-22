@@ -11,6 +11,19 @@ async function createDir(nameDir){
   await fs.promises.mkdir(nameDir)
 }
 
+async function buildHTML(){
+  const readTemplate = await fs.promises.readFile(pathToTemplate,'utf-8')
+  const arrayTag = readTemplate.match(/\{{(.+?)\}}/gi);
+  console.log(arrayTag[0].slice(2,arrayTag[0].length - 2))
+  for(let i=0; i<arrayTag.length; i++){
+    // let tagInfo = await fs.promises.readFile(path.join(pathToComponents, arrayTag[i][2,arrayTag[i].length-2]))
+    // console.log(tagInfo)
+  }
+  // console.log(arrayTag)
+
+}
+buildHTML()
+
 async function createProject(){
   await createDir(pathToDestination)
 }
@@ -62,9 +75,9 @@ async function readComponents(components) {
 }
  const yyy = readComponents('footer')
  yyy.then((data)=>{
-   console.log(data)
+  //  console.log(data)
  })
- console.log(yyy)
+//  console.log(yyy)
  const eee = readComponents('header')
  const rrr = readComponents('articles')
  
