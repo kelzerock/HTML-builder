@@ -6,6 +6,9 @@ const pathToDestination = path.join(__dirname, "project-dist");
 const pathToAssets = path.join(__dirname, "assets");
 const pathToAssetsDestination = path.join(__dirname, "project-dist/assets")
 const pathToComponents = path.join(__dirname, "components");
+const pathToStyle = `${__dirname}/styles`;
+const pathToBundle = `${__dirname}/project-dist/style.css`;
+const pathToDirectory = path.join(__dirname, 'assets')
 
 async function createDir(nameDir) {
   await fs.promises.rm(nameDir, { recursive: true, force: true });
@@ -56,11 +59,7 @@ async function createProject() {
 }
 createProject();
 
-const pathToStyle = `${__dirname}/styles`;
-const pathToBundle = `${__dirname}/project-dist/style.css`;
 
-const nameToDirectory = 'assets';
-const pathToDirectory = `${__dirname}/${nameToDirectory}`;
 
 async function copyFileFunction(path, pathToDestination) {
   if (!pathToDestination) pathToDestination = path + "-copy";
