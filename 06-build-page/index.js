@@ -1,14 +1,13 @@
-const path = require("path");
-const fs = require("fs");
+const path = require('path');
+const fs = require('fs');
 
-const pathToTemplate = path.join(__dirname, "template.html");
-const pathToDestination = path.join(__dirname, "project-dist");
-const pathToAssets = path.join(__dirname, "assets");
-const pathToAssetsDestination = path.join(__dirname, "project-dist/assets")
-const pathToComponents = path.join(__dirname, "components");
+const pathToTemplate = path.join(__dirname, 'template.html');
+const pathToDestination = path.join(__dirname, 'project-dist');
+const pathToAssetsDestination = path.join(__dirname, 'project-dist/assets');
+const pathToComponents = path.join(__dirname, 'components');
 const pathToStyle = `${__dirname}/styles`;
 const pathToBundle = `${__dirname}/project-dist/style.css`;
-const pathToDirectory = path.join(__dirname, 'assets')
+const pathToDirectory = path.join(__dirname, 'assets');
 
 async function createDir(nameDir) {
   await fs.promises.rm(nameDir, { recursive: true, force: true });
@@ -16,7 +15,7 @@ async function createDir(nameDir) {
 }
 
 async function buildHTML() {
-  let readTemplate = await fs.promises.readFile(pathToTemplate, "utf-8");
+  let readTemplate = await fs.promises.readFile(pathToTemplate, 'utf-8');
   const arrayTag = readTemplate.match(/\{{(.+?)\}}/gi);
   for (let i = 0; i < arrayTag.length; i++) {
     let tagInfo = await fs.promises.readFile(
@@ -29,7 +28,7 @@ async function buildHTML() {
     readTemplate = readTemplate.replace(arrayTag[i], tagInfo);
   }
   fs.promises.writeFile(
-    path.join(pathToDestination, "index.html"),
+    path.join(pathToDestination, 'index.html'),
     readTemplate
   );
 }
@@ -47,9 +46,9 @@ async function createProject() {
       const fileInfo = path.parse(file);
       const fileExt = fileInfo.ext;
       fs.stat(`${pathToStyle}/${file}`, (err, stats) => {
-        if (stats.isFile() && fileExt === ".css") {
+        if (stats.isFile() && fileExt === '.css') {
           const readStream = fs.createReadStream(`${pathToStyle}/${file}`);
-          readStream.on("data", (chunk) => {
+          readStream.on('data', (chunk) => {
             writeStream.write(chunk);
           });
         }
@@ -62,7 +61,7 @@ createProject();
 
 
 async function copyFileFunction(path, pathToDestination) {
-  if (!pathToDestination) pathToDestination = path + "-copy";
+  if (!pathToDestination) pathToDestination = path + '-copy';
   await fs.rm(pathToDestination, { recursive: true }, () => {
     fs.promises.mkdir(pathToDestination, { recursive: true });
     fs.readdir(path, (err, files) => {
